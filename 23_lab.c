@@ -204,6 +204,7 @@ int main() {
         
         switch (status) {
             case 1:
+                printf(" ");
                 int t = 0;
                 char c[] = "";
                 accepted = true;
@@ -222,6 +223,7 @@ int main() {
                 break;
             
             case 2:
+                printf(" ");
                 int x = 0;
                 char h[] = "";
                 accepted = true;
