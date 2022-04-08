@@ -218,7 +218,11 @@ int main() {
                         error();
                     }
                 }
-                addBinaryTree(nb, t);
+                if (nb == NULL) {
+                    nb = makeBinaryTree(root);
+                } else {
+                    addBinaryTree(nb, t);
+                }
                 printf("...the leaf has been added...\n\n");
                 break;
             
@@ -253,12 +257,20 @@ int main() {
                 break;
             
             case 3:
-                printTree(nb, 0);
+                if(nb == NULL) {
+                    printf("!!! the tree is empty !!!");
+                } else {
+                    printTree(nb, 0);
+                }
                 printf("\n");
                 break;
             
             case 4:
-                printf("%d leafs\n\n", leafsCount(nb));
+                if (nb == NULL) {
+                    printf("0 leafs\n\n");
+                } else {
+                    printf("%d leafs\n\n", leafsCount(nb));
+                }
                 break;
             
             case 5:
