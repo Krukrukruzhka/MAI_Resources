@@ -1,0 +1,69 @@
+\documentclass[14pt, a4paper]{extreport}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\fancyhf{}
+
+\thispagestyle{empty}
+\usepackage{ragged2e}
+\justifying
+
+\begin{document}
+
+\begin{flushleft}
+    т.е. что произведение $gf$ абсолютно интегрируемо на отрезке 
+    \newline [a, b].$\square$
+\end{flushleft}
+
+\newline Всё сказанное в этом пункте естественный образом переносится и на несобственные интегралы других видов, рассмотренных в п. 29.1, т.е. на интегралы вида (29.6), а также на интегралы общего типа (29.8). 
+\newline
+\\
+\textbf{29.6 Исследование сходимости интегралов}
+\newline
+\\
+Докажем один достаточный признак сходимости интегралов, называемый обычно \textit{признаком Дирихле.}
+\\
+\normalsize\textbf{Т\,Е\,О\,Р\,Е\,М\,А 5 (признак Дирихле).} Пусть:
+\\
+\textbf{1) }\textit{функция f непрерывна и имеет ограниченную первообразную F при x $\ge$ a} \textbf{;}
+\\
+\textbf{2) }\textit{функция g непрерывно дифференцируема и убывает при x $\ge$ a} \textbf{;}
+\\
+\begin{left}
+  \textbf{3) } $$\lim\limits_{x\to +{\infty}} g(x)=0.$$
+\end{left}
+\newline
+
+\\\textit{Тогда сходится интеграл}
+\newline
+\begin{equation*}
+    \int\limits_{a}^{+{\infty}} f(x)g(x) \,dx. \tag{\textbf{29.34}}
+\end{equation*}
+
+\begin{flushleft}
+    {\largeД\,о\,к\,а\,з\,а\,т\,е\,л\,ь\,с\,т\,в\,о. }Прежде всего заметим, что, в силу сделанных предположений, функция $fg$ непрерывна, а значит, и интегрируема по Риману на любом отрезке [a,\,b], a < b < {+\infty}, и поэтому имеет смысл говорить о несобственном интеграле (29.34).
+\end{flushleft}
+Проинтегрировав по частм произведение $f(x)g(x)$ на отрезке [a,\,b], получим
+\begin{equation*}
+    \int\limits_a^b\,f(x)g(x)\,dx=\int\limits_{a}^{b}\,g(x)\,dF(x) |\limits_{a}^{b}\,-\,\int\limits_{a}^{b}\,F(x)g'(x)\,dx. \tag{\textbf{29.35}}
+\end{equation*}
+    
+    \,\,\,Исследуем поведение обоих слагаемых правой части при {b\to +{\infty}}. В силу ограниченности функции F (см. условие 1 теоремы), 
+\begin{equation*}
+    M = sup |F(x)| < {+\infty}.
+\end{equation*}
+Из условий 2 и 3 теоремы следует, что функция $g$ не отрицательна для всех $x$$\ge$$a$, в частности $g(b) \ge$0;\,поэтому
+\begin{equation*}
+    |g(b)F(b)| \ge Mg(b).
+\end{equation*}
+\begin{center}
+    \line(1, 0){100} \\
+    \textit{671}
+\end{center}
+
+\end{document}
