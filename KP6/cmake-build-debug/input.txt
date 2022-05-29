@@ -1,0 +1,15 @@
+Konovalov Y.K. female 1 4 3 5 2 5 5 5 
+Zhukov O.U. female 0 5 5 3 5 2 3 2 
+Morozova U.V. male 1 3 5 5 2 4 5 4 
+Podolopin E.Y. female 3 3 3 5 5 4 3 3 
+Okuneva E.Q. male 2 5 2 5 4 4 3 5 
+Podolopina X.D. male 0 2 3 2 4 3 4 5 
+Ulukaev K.U. female 1 5 3 4 2 5 3 3 
+Potelin S.G. female 1 2 2 5 3 3 3 5 
+Razumov E.M. female 2 4 5 2 2 2 2 2 
+Potelin P.W. female 0 2 3 2 2 2 2 5 
+Petrova V.U. male 0 4 2 5 3 2 2 3 
+Polodko U.N. male 1 3 5 4 5 5 2 2 
+Petrova K.U. male 1 2 3 2 3 3 5 5 
+Loopin Z.I. female 0 2 3 4 5 5 5 3 
+Zhukova G.C. male 1 5 2 3 5 5 3 3 
