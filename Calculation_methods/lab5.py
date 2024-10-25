@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def analyt_func(x, a, b, c, t):
-    return np.exp((c - a)* t) * np.sin(x + b * t)
+    return np.exp((c - a) * t) * np.sin(x + b * t)
 
 
 def func_border1(a, b, c, t):
@@ -14,29 +14,36 @@ def func_border2(a, b, c, t):
     return -np.exp((c - a) * t) * (np.cos(b * t) + np.sin(b * t))
 
 
-def run_through(a, b, c, d, s):
-    P = np.zeros(s + 1)
-    Q = np.zeros(s + 1)
+# Метод прогонки
+def run_through(a, b, c, d, n: int):
+    P = np.zeros(n + 1)
+    Q = np.zeros(n + 1)
+
     P[0] = -c[0] / b[0]
     Q[0] = d[0] / b[0]
-    k = s-1
-    for i in range(1, s):
+
+    for i in range(1, n):
         P[i] = -c[i] / (b[i] + a[i] * P[i - 1])
         Q[i] = (d[i] - a[i] * Q[i - 1]) / (b[i] + a[i] * P[i - 1])
-    P[k] = 0
-    Q[k] = (d[k] - a[k] * Q[k - 1]) / (b[k] + a[k] * P[k - 1])
-    x = np.zeros(s)
-    x[k] = Q[k]
+
+    P[n-1] = 0
+    Q[n-1] = (d[n-1] - a[n-1] * Q[n-2]) / (b[n-1] + a[n-1] * P[n-2])
+
+    x = np.zeros(n)
+    x[n-1] = Q[-1]
     for i in range(s - 2, -1, -1):
         x[i] = P[i] * x[i + 1] + Q[i]
+
     return x
 
 
+# Явный метод
 def explicit(K, t, tau, h, a, b, c, x, approx):
     N = len(x)
     U = np.zeros((K, N))
+
     for j in range(N):
-            U[0, j] = np.sin(x[j])
+        U[0, j] = np.sin(x[j])
 
     for k in range(K - 1):
         t += tau
@@ -57,14 +64,18 @@ def explicit(K, t, tau, h, a, b, c, x, approx):
 def implicit(K, t, tau, h, a1, b1, c1, x, approx):
     N = len(x)
     U = np.zeros((K, N))
+
     for j in range(N):
-            U[0, j] = np.sin(x[j])
+        U[0, j] = np.sin(x[j])                                       # Заполнение на нулевом слое времени
+
     for k in range(0, K - 1):
         a = np.zeros(N)
         b = np.zeros(N)
         c = np.zeros(N)
         d = np.zeros(N)
-        t += tau
+
+        t += tau                                                     # Текущая временная точка
+
         for j in range(1, N - 1):
             a[j] = tau * (a1 / h**2 - b1 / (2 * h))
             b[j] = tau * ((-2 * a1) / h**2 + c1) - 1
@@ -101,6 +112,7 @@ def implicit(K, t, tau, h, a1, b1, c1, x, approx):
 
 def Krank_Nikolson(K, t, tau, h, a1, b1, c1, x, approx, theta):
     N = len(x)
+
     if theta == 0:
         U = explicit(K, t, tau, h, a1, b1, c1, x, approx)
     elif theta == 1:
@@ -115,20 +127,37 @@ def Krank_Nikolson(K, t, tau, h, a1, b1, c1, x, approx, theta):
     return U
 
 
-def main(N, K, time):
-    h = (np.pi - 0) / N
-    tau = time / K
-    x = np.arange(0, np.pi + h / 2 - 1e-4, h)
-    T = np.arange(0, time, tau)
-    a= 1
-    b = 1.55
-    c = -1
-    t= 0
-    while (1):
+if __name__ == '__main__':
+    N = 50                                      # Количество точек пространства
+    K = 7000                                    # Количество точек времени
+    time = 3
+
+    h = (np.pi - 0) / N                         # Частота дискретизации пространства
+    tau = time / K                              # Частота дискретизации времени
+
+    a = 1                                       # Коэффицент ?
+    b = 1.55                                    # Коэффицент ?
+    c = -1                                      # ?
+    t = 0                                       # ?
+    theta = 0.5                                 # Коэффициент для схемы Кранка (принимает значения от 0 до 1)
+
+    x = np.arange(0, np.pi + h / 2 - 1e-4, h)   # Аппроксимация пространства
+    T = np.arange(0, time, tau)                 # Аппроксимация времени
+
+    while True:
+        print("Выберите метод:\n"
+            "1 - явная конечно-разностная схема\n"
+            "2 - неявная конечно-разностная схема\n"
+            "3 - схема Кранка-Николсона\n"
+            "0 - выход из программы")
         method = int(input())
         if method == 0:
             break
         else:
+            print("Выберите уровень апроксимации:\n"
+                "1 - двухточечная аппроксимация с первым порядком\n"
+                "2 - трехточечная аппроксимация со вторым порядком\n"
+                "3 - двухточечная аппроксимация со вторым порядком")
             approx = int(input())
             if method == 1:
                 if a * tau / h**2 <= 0.5:
@@ -140,39 +169,29 @@ def main(N, K, time):
             elif method == 2:
                 U = implicit(K, t, tau, h, a, b, c, x, approx)
             elif method == 3:
-                ##theta = float(input("Введите параметр theta от 0 до 1:"))
-                theta = 0.5
                 U = Krank_Nikolson(K, t, tau, h, a, b, c, x, approx, theta)
 
-    dt = int(input("Введите момент времени:"))
-    U_analytic = analyt_func(x, a, b, c, T[dt])
-    error = abs(U_analytic - U[dt, :])
-    plt.title("График точного и численного решения задачи")
-    plt.plot(x, U_analytic, label = "Точное решение", color = "red")
-    plt.scatter(x, U[dt, :], label = "Численное решение")
-    plt.xlabel("x")
-    plt.ylabel("U")
-    plt.text(0.2, -0.8, "Максимальная ошибка метода: " + str(max(error)))
-    plt.axis([-0.2, 3.3, -1, 1])
-    plt.grid()
-    plt.legend()
-    plt.show()
-    plt.title("График ошибки по шагам")
+        dt = int(input("Введите момент времени:"))
+        U_analytic = analyt_func(x, a, b, c, T[dt])
+        error = abs(U_analytic - U[dt, :])
+        plt.title("График точного и численного решения задачи")
+        plt.plot(x, U_analytic, label = "Точное решение", color = "red")
+        plt.scatter(x, U[dt, :], label = "Численное решение")
+        plt.xlabel("x")
+        plt.ylabel("U")
+        plt.text(0.2, -0.8, "Максимальная ошибка метода: " + str(max(error)))
+        plt.axis([-0.2, 3.3, -1, 1])
+        plt.grid()
+        plt.legend()
+        plt.show()
+        plt.title("График ошибки по шагам")
 
-    error_time = np.zeros(len(T))
-    for i in range(len(T)):
-        error_time[i] = max(abs(analyt_func(x, a, b, c, T[i]) - U[i, :]))
+        error_time = np.zeros(len(T))
+        for i in range(len(T)):
+            error_time[i] = max(abs(analyt_func(x, a, b, c, T[i]) - U[i, :]))
 
-    plt.plot(T, error_time, label = "По времени")
-    plt.plot(x, error, label = "По пространству в выбранный момент времени")
-    plt.legend()
-    plt.grid()
-    plt.show()
-
-    return 0
-
-
-N = 50
-K = 7000
-time = 3
-main(N, K, time)
+        plt.plot(T, error_time, label = "По времени")
+        plt.plot(x, error, label = "По пространству в выбранный момент времени")
+        plt.legend()
+        plt.grid()
+        plt.show()
