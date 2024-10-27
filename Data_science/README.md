@@ -1,15 +1,3 @@
-<head>
-    <meta charset="UTF-8">
-    <style>
-        .centered-text {
-            text-align: center;
-            font-weight: bold;
-            font-size: 19px;
-        }
-    </style>
-</head>
-
-
 ## Интеллектуальный анализ данных
 \
 []()
@@ -18,9 +6,7 @@
 
 ---
 <body>
-    <div class="centered-text">
-        Состояние работ
-    </div>
+    <h2 align="center">Состояние работ</h2>
     <table>
         <tr>
             <th>Ссылка</th>
@@ -29,22 +15,22 @@
         </tr>
         <tr>
             <td><a href="#lab-0">Лабораторная 0</a></td>
-            <td>В проверке</td>
+            <td>Проверка</td>
             <td></td>
         </tr>
         <tr>
             <td><a href="#lab-1">Лабораторная 1</a></td>
-            <td>В работе</td>
+            <td>Проверка</td>
             <td></td>
         </tr>
         <tr>
             <td><a href="#lab-2">Лабораторная 2</a></td>
-            <td>В проверке</td>
+            <td>Проверка</td>
             <td></td>
         </tr>
         <tr>
             <td><a href="#lab-3">Лабораторная 3</a></td>
-            <td>Ожидание</td>
+            <td>В работе</td>
             <td></td>
         </tr>
         <tr>
@@ -58,15 +44,14 @@
             <td></td>
         </tr>
     </table>
-
 </body>
 
 ---
 
 <body>
-    <div id="lab-0" class="centered-text">
+    <h3 id="lab-0" align="center">
         <strong>Лабораторная работа №0</strong>
-    </div>
+    </h3>
     <div>
         <p>
             Условие:
@@ -74,7 +59,7 @@
         </p>
         <p>
             Входные данные:
-            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/lab_0.xlsx">Data_science/res/lab_0.xlsx</a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/lab_0.xlsx">res/lab_0.xlsx</a>
         </p>
         <p>
             Код: -
@@ -82,7 +67,7 @@
         </p>
         <p>
             Результат:
-            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_0.xlsx">Data_science/res/output/lab_0.xlsx</a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_0.xlsx">res/output/lab_0.xlsx</a>
         </p> 
     </div>
 </body>
@@ -90,35 +75,67 @@
 ---
 
 <body>
-    <div id="lab-1" class="centered-text">
+    <h3 id="lab-1" align="center">
         <strong>Лабораторная работа №1</strong>
-    </div>
+    </h3>
+    <h4>ЛР 1.1</h4>
     <div>
         <p>
             Условие:
-            <a href=""></a>
+            <a href="https://docs.google.com/presentation/d/14RANUQUghd01gKPyr5POLkw67or8YFGv33M4GnPKric/edit#slide=id.p2">Классификация меотдом Байеса</a>
         </p>
         <p>
             Входные данные:
-            <a href=""></a>
         </p>
+        <ul>
+            <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.nominal.xlsx">res/input/weather.nominal.xlsx</a></li>
+            <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.numeric.xlsx">res/input/weather.numeric.xlsx</a></li>
+            <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.nominal.predict.xlsx">res/input/weather.nominal.predict.xlsx</a></li>
+            <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.numeric.predict.xlsx">res/input/weather.numeric.predict.xlsx</a></li>
+        </ul>
         <p>
             Код:
-            <a href=""></a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/lab_1.1.py">lab_1.1.py</a>
         </p>
         <p>
             Результат:
-            <a href=""></a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_1.1.xlsx">res/output/lab_1.2.xlsx</a>
         </p> 
     </div>
+    <br>
+    <br>
+    <h4>ЛР 1.2</h4>
+        <div>
+            <p>
+                Условие:
+                <a href="https://docs.google.com/presentation/d/1xaUNGA2fOd2ehZmu63pNHjKu3wgklVXu1mhAGQhYa9M/edit#slide=id.p2">Классификация методом KNN</a>
+            </p>
+            <p>
+                Входные данные:
+            </p>
+            <ul>
+                <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.nominal.xlsx">res/input/weather.nominal.xlsx</a></li>
+                <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.numeric.xlsx">res/input/weather.numeric.xlsx</a></li>
+                <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.nominal.predict.xlsx">res/input/weather.nominal.predict.xlsx</a></li>
+                <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/weather.numeric.predict.xlsx">res/input/weather.numeric.predict.xlsx</a></li>
+            </ul>
+            <p>
+                Код:
+                <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/lab_1.2.py">lab_1.2.py</a>
+            </p>
+            <p>
+                Результат:
+                <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_1.2.xlsx">res/output/lab_1.2.xlsx</a>
+            </p> 
+        </div>
 </body>
 
 ---
 
 <body>
-    <div id="lab-2" class="centered-text">
+    <h3 id="lab-2" align="center">
         <strong>Лабораторная работа №2</strong>
-    </div>
+    </h3>
     <div>
         <p>
             Условие:
@@ -126,15 +143,15 @@
         </p>
         <p>
             Входные данные:
-            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/lab_2_titanic.csv">Data_science/res/input/lab_2_titanic.csv</a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/input/lab_2_titanic.csv">res/input/lab_2_titanic.csv</a>
         </p>
         <p>
             Код:
-            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/lab_2.py">Data_science/lab_2.py</a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/lab_2.py">lab_2.py</a>
         </p>
         <p>
             Результат:
-            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_2.png">Data_science/res/output/lab_2.png</a>
+            <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_2.png">res/output/lab_2.png</a>
         </p> 
     </div>
 </body>
@@ -142,9 +159,9 @@
 ---
 
 <body>
-    <div id="lab-3" class="centered-text">
+    <h3 id="lab-3" align="center">
         <strong>Лабораторная работа №3</strong>
-    </div>
+    </h3>
     <div>
         <p>
             Условие:
@@ -168,9 +185,9 @@
 ---
 
 <body>
-    <div id="lab-4" class="centered-text">
+    <h3 id="lab-4" align="center">
         <strong>Лабораторная работа №4</strong>
-    </div>
+    </h3>
     <div>
         <p>
             Условие:
@@ -194,9 +211,9 @@
 ---
 
 <body>
-    <div id="lab-5" class="centered-text">
+    <h3 id="lab-5" align="center">
         <strong>Лабораторная работа №5</strong>
-    </div>
+    </h3>
     <div>
         <p>
             Условие:
