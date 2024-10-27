@@ -55,7 +55,7 @@
     <div>
         <p>
             Условие:
-            <a href="https://docs.google.com/presentation/d/1T1-X7CiXa2aiQnaKMjcpyxx6AuQEvvxISSTOO6vhOS8/edit?usp=drive_link">Описательная статистика</a>
+            <a href="https://docs.google.com/presentation/d/1T1-X7CiXa2aiQnaKMjcpyxx6AuQEvvxISSTOO6vhOS8/edit#slide=id.p29">Описательная статистика</a>
         </p>
         <p>
             Входные данные:
