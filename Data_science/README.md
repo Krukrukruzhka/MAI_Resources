@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <td><a href="#lab-4">Лабораторная 4</a></td>
-        <td>Ожидание</td>
+        <td>Проверка</td>
         <td></td>
     </tr>
     <tr>
@@ -180,20 +180,23 @@
 <div>
     <p>
         Условие:
-        <a href=""></a>
+        <a href="https://docs.google.com/presentation/d/18jop-jwzHY05zLirRJViO1WrRERMjKNrNiv4IEuSvtY/edit#slide=id.p2">Кластеризация</a>
     </p>
     <p>
-        Входные данные:
-        <a href=""></a>
+        Входные данные: Датасет ирисов загружен из sklearn
     </p>
     <p>
         Код:
-        <a href=""></a>
+        <a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/lab_4.py">lab_4.py</a>
     </p>
     <p>
         Результат:
-        <a href=""></a>
     </p> 
+    <ul>
+        <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_4_target.png">res/output/lab_4_target.png</a></li>
+        <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_4_k-means.png">res/output/lab_4_k-means.png</a></li>
+        <li><a href="https://github.com/Krukrukruzhka/MAI_Resources/blob/main/Data_science/res/output/lab_4_EM.png">res/output/lab_4_EM.png</a></li>
+    </ul>
 </div>
 
 ---
