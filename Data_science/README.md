@@ -14,18 +14,18 @@
     </tr>
     <tr>
         <td><a href="#lab-0">Лабораторная 0</a></td>
-        <td>Проверка</td>
-        <td></td>
+        <td>Проверено</td>
+        <td>+</td>
     </tr>
     <tr>
         <td><a href="#lab-1">Лабораторная 1</a></td>
-        <td>Проверка</td>
-        <td></td>
+        <td>Проверено</td>
+        <td>+</td>
     </tr>
     <tr>
         <td><a href="#lab-2">Лабораторная 2</a></td>
-        <td>Проверка</td>
-        <td></td>
+        <td>Проверено</td>
+        <td>+</td>
     </tr>
     <tr>
         <td><a href="#lab-3">Лабораторная 3</a></td>
@@ -34,8 +34,8 @@
     </tr>
     <tr>
         <td><a href="#lab-4">Лабораторная 4</a></td>
-        <td>Проверка</td>
-        <td></td>
+        <td>Проверено</td>
+        <td>+</td>
     </tr>
     <tr>
         <td><a href="#lab-5">Лабораторная 5</a></td>
@@ -156,7 +156,7 @@
 <div>
     <p>
         Условие:
-        <a href=""></a>
+        <a href="https://docs.google.com/presentation/d/1dowN3a8eOCdfYoFEqFWUHPftn1ZfhojjcaOKagCnUes/edit#slide=id.p21">Персептроны</a>
     </p>
     <p>
         Входные данные:
