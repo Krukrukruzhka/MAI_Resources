@@ -1,8 +1,8 @@
 import aiohttp
 import asyncio
+import glob
 import logging
 import re
-import glob
 
 from bs4 import BeautifulSoup
 from docx import Document
@@ -18,71 +18,68 @@ def _prepare_word(word: str) -> str:
     for symbol in word:
         if symbol == "ё":
             symbol = "е"
-        if "а" <= symbol <= "я":
+        if "а" <= symbol <= "я" or symbol == "-":
             letters.append(symbol)
     return "".join(letters)
 
 
-def _prepare_noun_endings(endings: list[str]) -> None:
-    if len(endings[0]) > 1 and endings[0][-2:] == "ей":
-        endings[0] = "ей"
-    elif endings[0][-1] == "ь":
-        endings[0] = "ь"
-    elif endings[0][-1] == "й":
-        endings[0] = "й"
-    elif endings[0][-1] == "а":
-        endings[0] = "а"
-    elif endings[0][-1] == "о":
-        endings[0] = "о"
-    elif endings[0][-1] == "я":
-        endings[0] = "я"
-    elif endings[0][-1] == "е":
-        endings[0] = "е"
+def _prepare_noun_endings(endings: list[str], root: str) -> None:
+    logger.warning(f"all forms: {endings}")
+    ends = ["ей", "ь", "й", "а", "о", "я", "е", ""]
+    i = 0
+    for end in ends:
+        if endings[i] == root + end:
+            endings[i] = end
+            break
     else:
-        endings[0] = ""
+        for end in ends:
+            if len(endings[i]) >= len(end) and endings[i][-len(end):] == end:
+                endings[i] = end
+                break
+        else:
+            endings[i] = ""
 
-    if len(endings[1]) > 1 and endings[1][-2:] == "ом":
-        endings[1] = "ом"
-    elif len(endings[1]) > 1 and endings[1][-2:] == "ем":
-        endings[1] = "ем"
-    elif len(endings[1]) > 1 and endings[1][-2:] == "ей":
-        endings[1] = "ей"
-    elif len(endings[1]) > 1 and endings[1][-2:] == "ой":
-        endings[1] = "ой"
-    elif len(endings[1]) > 1 and endings[1][-2:] == "ым":
-        endings[1] = "ым"
-    elif endings[1][-1] == "ю":
-        endings[1] = "ю"
-
-    if endings[2][-1] == "ы":
-        endings[2] = "ы"
-    elif endings[2][-1] == "и":
-        endings[2] = "и"
-    elif endings[2][-1] == "а":
-        endings[2] = "а"
-    elif endings[2][-1] == "я":
-        endings[2] = "я"
-    elif endings[2][-1] == "е":
-        endings[2] = "е"
-
-    if len(endings[3]) > 1 and endings[3][-2:] == "ов":
-        endings[3] = "ов"
-    elif len(endings[3]) > 1 and endings[3][-2:] == "ей":
-        endings[3] = "ей"
-    elif len(endings[3]) > 1 and endings[3][-2:] == "ев":
-        endings[3] = "ев"
-    elif len(endings[3]) > 1 and endings[3][-2:] == "ов":
-        endings[3] = "ов"
-    elif len(endings[3]) > 1 and endings[3][-2:] == "ых":
-        endings[3] = "ых"
-    elif len(endings[3]) > 1 and endings[3][-2:] == "ий":
-        endings[3] = "ий"
-    elif endings[3][-1] == "ь":
-        endings[3] = "ь"
-    elif endings[3][-1] == "й":
-        endings[3] = "й"
+    ends = ["ом", "ем", "ей", "ой", "ым", "ю", ""]
+    i = 1
+    for end in ends:
+        if endings[i] == root + end:
+            endings[i] = end
+            break
     else:
-        endings[3] = ""
+        for end in ends:
+            if len(endings[i]) >= len(end) and endings[i][-len(end):] == end:
+                endings[i] = end
+                break
+        else:
+            endings[i] = ""
+
+    ends = ["ы", "и", "а", "я", "е", ""]
+    i = 2
+    for end in ends:
+        if endings[i] == root + end:
+            endings[i] = end
+            break
+    else:
+        for end in ends:
+            if len(endings[i]) >= len(end) and endings[i][-len(end):] == end:
+                endings[i] = end
+                break
+        else:
+            endings[i] = ""
+
+    ends = ["ов", "ей", "ев", "ов", "ых", "ий", "ь", "й", ""]
+    i = 3
+    for end in ends:
+        if endings[i] == root + end:
+            endings[i] = end
+            break
+    else:
+        for end in ends:
+            if len(endings[i]) >= len(end) and endings[i][-len(end):] == end:
+                endings[i] = end
+                break
+        else:
+            endings[i] = ""
 
 
 async def get_word_html(word: str) -> str:
@@ -92,15 +89,17 @@ async def get_word_html(word: str) -> str:
         async with session.get(url, ssl=False) as resp:
             if resp.status != 200:
                 logger.exception(f"Something went wrong with word {word}. Status code {resp.status}.")
+                if resp.status == 404:
+                    return "слово не нашлось или его не существует"
                 return f"HTTP error. Status code {resp.status}"
             return await resp.text()
 
 
-async def get_word_metadata(word: str) -> list[str | None]:
+async def get_word_metadata(word: str, root: str) -> list[str | None]:
     word = word.lower().replace("ё", "е")
 
     word_html = await get_word_html(word)
-    if len(word_html) > 4 and word_html[:4] == "HTTP":
+    if len(word_html) > 4 and (word_html.startswith("HTTP") or word_html.startswith("слово не нашлось")):
         return [word_html]
 
     soup = BeautifulSoup(word_html, 'html.parser')
@@ -121,7 +120,7 @@ async def get_word_metadata(word: str) -> list[str | None]:
         if word_type == "существительное":
             if "мужской род" in word_params or "мужской" in word_params:
                 metadata.append("мужской")
-            elif "женский род" in word_params or "женский" in word_params:
+            elif "женский род" in word_params or "женский" in word_params or "общий род (может согласовываться с другими частями речи как мужского" in word_params:
                 metadata.append("женский")
             elif "средний род" in word_params or "средний" in word_params:
                 metadata.append("средний")
@@ -136,14 +135,30 @@ async def get_word_metadata(word: str) -> list[str | None]:
                 raise RuntimeError(r"Без души ¯\_(ツ)_/¯")
 
             raws = div.find("table", {"class": "morfotable ru"}).find_all("tr")
+
+            end1 = raws[1].find_all("td")[1].get_text(separator=" ").strip().split()[0]
+            end2 = raws[5].find_all("td")[1].get_text(separator=" ").strip().split()[0]
+
+            end3 = raws[1].find_all("td")[2]
+            if end3.get_text(separator=" ").strip().split()[0] == "*":
+                end3 = end3.find("span").get_text(separator=" ").strip().split()[0]
+            else:
+                end3 = end3.get_text(separator=" ").strip().split()[0]
+
+            end4 = raws[2].find_all("td")[2]
+            if end4.get_text(separator=" ").strip().split()[0] == "*":
+                end4 = end4.find("span").get_text(separator=" ").strip().split()[0]
+            else:
+                end4 = end4.get_text(separator=" ").strip().split()[0]
+
             endings = [
-                _prepare_word(raws[1].find_all("td")[1].text),
-                _prepare_word(raws[5].find_all("td")[1].text),
-                _prepare_word(raws[1].find_all("td")[2].text),
-                _prepare_word(raws[2].find_all("td")[2].text)
+                _prepare_word(end1),
+                _prepare_word(end2),
+                _prepare_word(end3),
+                _prepare_word(end4)
             ]
 
-            _prepare_noun_endings(endings)
+            _prepare_noun_endings(endings, root)
             metadata.append(" ".join(endings))
 
         elif word_type == "глагол":
@@ -165,9 +180,10 @@ async def get_word_metadata(word: str) -> list[str | None]:
         return [f"Ошибка {exept}"]
 
 
-async def identity_word_class(word: str) -> str:
+async def identity_word_class(root: str, end: str) -> str:
     tmp = WORD_CLASSES
-    metadata = await get_word_metadata(word)
+    word = root + end
+    metadata = await get_word_metadata(word, root)
     logger.warning(metadata)
 
     if metadata and len(metadata[0]) > 6 and (metadata[0][:6] == "Ошибка" or metadata[0][:4] == "HTTP"):
@@ -200,11 +216,19 @@ async def generate_answer_file():
             for paragraph in doc.paragraphs:
                 text = re.sub(r'\.', '', re.sub(r'\s+', ' ', paragraph.text))
                 text_elements = text.split()
-                if len(text_elements) == 3:
-                    word = text_elements[0] + (text_elements[1] if text_elements[1] != "+" else "")
-                    text_elements.append(await identity_word_class(word))
+                if 3 <= len(text_elements):
+                    root, end = text_elements[0], (text_elements[1] if text_elements[1] != "+" else "")
+                    root, end = _prepare_word(root), _prepare_word(end)
+                    new_class = await identity_word_class(root, end)
+                    if new_class == "062" and root[-1] == "и":
+                        new_class = "061"
+                    if len(text_elements) == 3 and new_class == text_elements[-1].split('/')[-1]:
+                        text_elements.append("success")
+                    else:
+                        text_elements.append(f"#{new_class}")
                     output_file.write(" ".join(text_elements) + '\n')
 
 
 if __name__ == "__main__":
     asyncio.run(generate_answer_file())
+    # print(asyncio.run(identity_word_class("брам-стеньг", "а")))
