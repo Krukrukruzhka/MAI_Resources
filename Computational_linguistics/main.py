@@ -186,7 +186,7 @@ async def identity_word_class(root: str, end: str) -> str:
     metadata = await get_word_metadata(word, root)
     logger.warning(metadata)
 
-    if metadata and len(metadata[0]) > 6 and (metadata[0][:6] == "Ошибка" or metadata[0][:4] == "HTTP"):
+    if metadata and len(metadata[0]) > 6 and (metadata[0].startswith("Ошибка") or metadata[0].startswith("HTTP") or metadata[0].startswith("слово не нашлось")):
         logger.warning(metadata[0])
         logger.warning("\n\n")
         return metadata[0]
@@ -213,13 +213,24 @@ async def generate_answer_file():
 
         output_file_path = f"res/output/{filename[:-5]}.txt"
         with open(output_file_path, 'w+', encoding='utf-8') as output_file:
+            coruts = []
             for paragraph in doc.paragraphs:
                 text = re.sub(r'\.', '', re.sub(r'\s+', ' ', paragraph.text))
                 text_elements = text.split()
                 if 3 <= len(text_elements):
                     root, end = text_elements[0], (text_elements[1] if text_elements[1] != "+" else "")
                     root, end = _prepare_word(root), _prepare_word(end)
-                    new_class = await identity_word_class(root, end)
+                    coruts.append(asyncio.create_task(identity_word_class(root, end)))
+
+            coruts = await asyncio.gather(*coruts)
+            i = 0
+            for paragraph in doc.paragraphs:
+                text = re.sub(r'\.', '', re.sub(r'\s+', ' ', paragraph.text))
+                text_elements = text.split()
+                if 3 <= len(text_elements):
+                    root, end = text_elements[0], (text_elements[1] if text_elements[1] != "+" else "")
+                    root, end = _prepare_word(root), _prepare_word(end)
+                    new_class = coruts[i]
                     if new_class == "062" and root[-1] == "и":
                         new_class = "061"
                     if len(text_elements) == 3 and new_class == text_elements[-1].split('/')[-1]:
@@ -227,6 +238,7 @@ async def generate_answer_file():
                     else:
                         text_elements.append(f"#{new_class}")
                     output_file.write(" ".join(text_elements) + '\n')
+                    i += 1
 
 
 if __name__ == "__main__":
