@@ -1,7 +1,8 @@
 import aiohttp
 import asyncio
-import glob
 import logging
+import os
+from pathlib import Path
 import re
 
 from bs4 import BeautifulSoup
@@ -204,12 +205,9 @@ async def identity_word_class(root: str, end: str) -> str:
 
 
 async def generate_answer_file():
-    path = f"res/input/*.docx"
-    docx_files = glob.glob(path)
-
-    for file_path in docx_files:
-        doc = Document(file_path)
-        filename = file_path.split("/")[-1]
+    input_dir = Path(os.getcwd()).joinpath("res/input")
+    for filename in os.listdir(input_dir):
+        doc = Document(input_dir.joinpath(filename))
 
         output_file_path = f"res/output/{filename[:-5]}.txt"
         with open(output_file_path, 'w+', encoding='utf-8') as output_file:
