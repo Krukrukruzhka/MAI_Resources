@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 def analyt_func(x, a, b, c, t):
     return np.exp((c - a) * t) * np.sin(x + b * t)
 
-
 def func_border1(a, b, c, t):
     return np.exp((c - a) * t) * (np.cos(b * t) + np.sin(b * t))
 
