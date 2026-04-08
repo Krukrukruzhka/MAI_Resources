@@ -7,11 +7,11 @@ from math import cos, sin, radians
 import customtkinter
 
 
-def rotate_matrix(x: float = 360, y: float = 360, z: float = 360) -> np.array:
+def rotate_matrix(x: float = 360, y: float = 360, z: float = 360, round_accuracy: int = 10) -> np.array:
     x, y, z = radians(x), radians(y), radians(z)
-    return np.array([[round(cos(y)*cos(z), 14), round(sin(x)*sin(y)*cos(z)-cos(x)*sin(z), 14), round(cos(x)*sin(y)*cos(z)+sin(x)*sin(z), 14)],
-                     [round(cos(y)*sin(z), 14), round(sin(x)*sin(y)*sin(z)+cos(x)*cos(z), 14), round(cos(x)*sin(y)*sin(z)-sin(x)*cos(z), 14)],
-                     [round(-sin(y), 14), round(sin(x)*cos(y), 14), round(cos(x)*cos(y), 14)]])
+    return np.array([[round(cos(y)*cos(z), round_accuracy), round(sin(x)*sin(y)*cos(z)-cos(x)*sin(z), round_accuracy), round(cos(x)*sin(y)*cos(z)+sin(x)*sin(z), round_accuracy)],
+                     [round(cos(y)*sin(z), round_accuracy), round(sin(x)*sin(y)*sin(z)+cos(x)*cos(z), round_accuracy), round(cos(x)*sin(y)*sin(z)-sin(x)*cos(z), round_accuracy)],
+                     [round(-sin(y), round_accuracy), round(sin(x)*cos(y), round_accuracy), round(cos(x)*cos(y), round_accuracy)]])
 
 
 class Taper:
