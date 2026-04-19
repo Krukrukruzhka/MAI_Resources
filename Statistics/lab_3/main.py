@@ -118,14 +118,6 @@ def main():
     print("\n" + "=" * 80)
     print("АНАЛИЗ ЗАВЕРШЕН")
     print("=" * 80)
-    
-    print("\nСозданные файлы:")
-    print("  input_data/original_data.csv - исходные данные")
-    print("  input_data/data_with_outliers.csv - данные с выбросами")
-    print("  output_data/result_tables/correlation_analysis_original.csv - анализ исходных данных")
-    print("  output_data/result_tables/correlation_analysis_outliers.csv - анализ с выбросами")
-    print("  output_data/result_tables/correlation_comparison.csv - сравнение результатов")
-    print("  output_data/charts/ - графики и визуализации")
 
 
 if __name__ == "__main__":
