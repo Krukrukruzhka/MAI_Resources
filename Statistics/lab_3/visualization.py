@@ -119,7 +119,7 @@ def plot_outlier_impact(comparison_df: pd.DataFrame):
         comparison_df: DataFrame с сравнением до/после выбросов
     """
     # Фильтруем только значимые изменения
-    significant_changes = comparison_df[comparison_df['correlation_change_percent'].abs() > 1]
+    significant_changes = comparison_df[comparison_df['correlation_change_percent'].abs() != 0]
     
     if len(significant_changes) > 0:
         plt.figure(figsize=(12, 8))
@@ -154,7 +154,7 @@ def plot_outlier_impact(comparison_df: pd.DataFrame):
 
 
 def create_all_visualizations(df_original: pd.DataFrame, df_outliers: pd.DataFrame, 
-                             results_df: pd.DataFrame, comparison_df: pd.DataFrame):
+                             results_original_df: pd.DataFrame, results_outliers_df: pd.DataFrame, comparison_df: pd.DataFrame):
     """
     Создает все визуализации для анализа
     
@@ -164,6 +164,22 @@ def create_all_visualizations(df_original: pd.DataFrame, df_outliers: pd.DataFra
         results_df: результаты корреляционного анализа
         comparison_df: сравнение до/после выбросов
     """
+    results_df = results_original_df.copy()
+
+    results_df_outliers_linear = results_outliers_df[results_outliers_df["dependency"] == "linear_a0.5"]
+    results_df_outliers_linear["dependency"] = "linear_a0.5_outliers"
+    results_df_outliers_cubic = results_outliers_df[results_outliers_df["dependency"] == "cubic"]
+    results_df_outliers_cubic["dependency"] = "cubic_outliers"
+
+    results_df = pd.concat(
+        [
+            results_df,
+            results_df_outliers_linear,
+            results_df_outliers_cubic,
+       ],
+       ignore_index=True
+    )
+
     setup_plot_style()
     
     # Создаем папку для графиков, если её нет

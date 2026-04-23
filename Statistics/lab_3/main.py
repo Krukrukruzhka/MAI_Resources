@@ -24,7 +24,7 @@ def main():
     # Шаг 1: Генерация данных
     print("-" * 40, "1. ГЕНЕРАЦИЯ ДАННЫХ", sep='\n')
     X, Z = generate_samples(n_samples)
-    df_original = create_dataframe_with_dependencies(X, Z)
+    df_original = create_dataframe_with_dependencies(X, Z) # формируем датасет из векторов X, Z, и все вариантов Y
     
     print(f"Сгенерировано {n_samples} наблюдений:")
     print(f"  X ~ N(0,1): mean={X.mean():.3f}, std={X.std():.3f}")
@@ -71,10 +71,10 @@ def main():
     comparison_results = compare_with_outliers(df_original, df_outliers, alpha)
     
     # Выводим сводку по изменениям
-    significant_changes = comparison_results[comparison_results['correlation_change_percent'].abs() > 1]
+    significant_changes = comparison_results[comparison_results['correlation_change_percent'].abs() != 0]
     
     if len(significant_changes) > 0:
-        print("Значительные изменения коэффициентов корреляции (>1%):")
+        print("Значительные изменения коэффициентов корреляции (!= 0%):")
         for _, row in significant_changes.iterrows():
             print(f"  {row['dependency']} ({row['correlation_type']}): "
                   f"{row['original_correlation']:.4f} → {row['outlier_correlation']:.4f} "
@@ -89,7 +89,7 @@ def main():
     # Шаг 6: Создание визуализаций
     print("-" * 40)
     print("6. СОЗДАНИЕ ВИЗУАЛИЗАЦИЙ")
-    create_all_visualizations(df_original, df_outliers, results_original, comparison_results)
+    create_all_visualizations(df_original, df_outliers, results_original, results_outliers, comparison_results)
     print("Все визуализации созданы и сохранены в output_data/charts/")
     
     # Шаг 7: Выводы
@@ -110,7 +110,10 @@ def main():
     # Анализ устойчивости коэффициентов к выбросам
     print("\n2. Устойчивость коэффициентов к выбросам:")
     for corr_type in ['pearson', 'spearman', 'kendall']:
-        changes = comparison_results[comparison_results['correlation_type'] == corr_type]['correlation_change_percent'].abs()
+        changes = comparison_results[
+            (comparison_results['correlation_type'] == corr_type) &
+            (comparison_results['correlation_change_percent'] != 0)
+        ]['correlation_change_percent'].abs()
         if len(changes) > 0:
             avg_change = changes.mean()
             print(f"   - {corr_type.capitalize()}: среднее изменение {avg_change:.1f}%")
