@@ -24,7 +24,7 @@ def main():
     # Шаг 1: Генерация данных
     print("-" * 40, "1. ГЕНЕРАЦИЯ ДАННЫХ", sep='\n')
     X, Z = generate_samples(n_samples)
-    df_original = create_dataframe_with_dependencies(X, Z) # формируем датасет из векторов X, Z, и все вариантов Y
+    df_original = create_dataframe_with_dependencies(X, Z) # формируем датасет из векторов X, Z, Y
     
     print(f"Сгенерировано {n_samples} наблюдений:")
     print(f"  X ~ N(0,1): mean={X.mean():.3f}, std={X.std():.3f}")

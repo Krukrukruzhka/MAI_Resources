@@ -81,57 +81,6 @@ def create_visualizations():
         plt.savefig(dataset_dir / 'boxplot.png', dpi=300, bbox_inches='tight')
         plt.close()
         
-        # 3. Violin plot для более детального сравнения
-        plt.figure(figsize=(12, 6))
-        
-        # Преобразуем данные для violin plot
-        violin_data = []
-        for col in df.columns:
-            data = df[col].dropna()
-            for value in data:
-                violin_data.append({'Sample': col, 'Value': value})
-        
-        violin_df = pd.DataFrame(violin_data)
-        
-        sns.violinplot(data=violin_df, x='Sample', y='Value')
-        plt.title(f'{dataset_name}: Violin Plot распределений\n{dataset_descriptions[dataset_name]}')
-        plt.ylabel('Значения')
-        
-        plt.savefig(dataset_dir / 'violinplot.png', dpi=300, bbox_inches='tight')
-        plt.close()
-        
-        # 4. Scatter plot для парных сравнений (если данные сопоставимы по длине)
-        # Находим минимальную длину среди всех выборок
-        min_length = min(len(df[col].dropna()) for col in df.columns)
-        
-        if min_length > 5:  # Создаем scatter plot только если достаточно данных
-            fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-            fig.suptitle(f'{dataset_name}: Scatter Plot парных сравнений\n{dataset_descriptions[dataset_name]}', 
-                        fontsize=14, fontweight='bold')
-            
-            pairs = [('sample_1', 'sample_2'), ('sample_1', 'sample_3'), ('sample_2', 'sample_3')]
-            
-            for i, (col1, col2) in enumerate(pairs):
-                ax = axes[i]
-                data1 = df[col1].dropna().iloc[:min_length]
-                data2 = df[col2].dropna().iloc[:min_length]
-                
-                ax.scatter(data1, data2, alpha=0.6)
-                ax.set_xlabel(col1)
-                ax.set_ylabel(col2)
-                ax.set_title(f'{col1} vs {col2}')
-                ax.grid(True, alpha=0.3)
-                
-                # Добавляем линию тренда
-                if len(data1) > 1:
-                    z = np.polyfit(data1, data2, 1)
-                    p = np.poly1d(z)
-                    ax.plot(data1, p(data1), "r--", alpha=0.8)
-            
-            plt.tight_layout()
-            plt.savefig(dataset_dir / 'scatter_plots.png', dpi=300, bbox_inches='tight')
-            plt.close()
-        
         # 5. QQ plot для проверки нормальности распределения
         from scipy import stats
         
@@ -152,37 +101,7 @@ def create_visualizations():
         plt.close()
         
         print(f"  ✓ Созданы графики для {dataset_name}")
-    
-    # 6. Сводный график для сравнения всех датасетов
-    print("Создание сводного графика...")
-    
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    axes = axes.flatten()
-    
-    for i, (dataset_name, file_path) in enumerate(datasets.items()):
-        df = pd.read_csv(file_path)
-        
-        # Собираем все данные для сводного box plot
-        all_data = []
-        for col in df.columns:
-            data = df[col].dropna()
-            for value in data:
-                all_data.append({'Dataset': dataset_name, 'Sample': col, 'Value': value})
-        
-        summary_df = pd.DataFrame(all_data)
-        
-        ax = axes[i]
-        sns.boxplot(data=summary_df, x='Sample', y='Value', ax=ax)
-        ax.set_title(f'{dataset_name}\n{dataset_descriptions[dataset_name]}')
-        ax.set_ylabel('Значения')
-        ax.tick_params(axis='x', rotation=45)
-    
-    plt.suptitle('Сравнение всех датасетов: Box Plots', fontsize=16, fontweight='bold')
-    plt.tight_layout()
-    plt.savefig(output_dir / 'all_datasets_comparison.png', dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    print("✓ Создан сводный график сравнения")
+
     print(f"\nВсе графики сохранены в папку: {output_dir}")
 
 if __name__ == "__main__":

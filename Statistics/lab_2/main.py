@@ -263,13 +263,6 @@ def check_sample_volumes():
             print("Вывод: Нет статистически значимых различий между 'до' и 'после' (p >= 0.05)")
     else:
         print("Недостаточно данных для критерия знаков (все разности равны нулю)")
-    
-    # 4. Дополнительная информация
-    print("\n4. ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ")
-    if len(differences) > 0:
-        print(f"Средняя разность оценок: {np.mean(differences):.3f}")
-        print(f"Медианная разность оценок: {np.median(differences):.3f}")
-        print(f"Стандартное отклонение разностей: {np.std(differences):.3f}")
 
 
 def simulate_normal_distributions():

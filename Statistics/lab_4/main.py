@@ -1,7 +1,12 @@
+import warnings
+
 import pandas as pd
 import numpy as np
 from statistical_analysis import apply_statistical_tests, analyze_variance_impact
 from statistical_visualizations import create_statistical_visualizations
+
+warnings.filterwarnings("ignore")
+
 
 def main():
     """Основная функция для выполнения анализа"""
@@ -34,7 +39,7 @@ def main():
         print(f"  Джонкхиер: p = {row['p_value_jonckheere']:.4f} {'✓' if row['jonckheere_significant'] else '✗'}")
         
         # Интерпретация
-        if row['fisher_significant'] and row['kruskal_significant']:
+        if row['fisher_significant'] or row['kruskal_significant']:
             print("  Вывод: Статистически значимые различия между группами")
         else:
             print("  Вывод: Нет статистически значимых различий между группами")
