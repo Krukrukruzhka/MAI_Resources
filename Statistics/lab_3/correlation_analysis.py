@@ -32,7 +32,7 @@ def calculate_correlations(X: np.ndarray, Y: np.ndarray) -> Dict[str, Tuple[floa
     return correlations
 
 
-def test_hypothesis(corr_value: float, p_value: float, dependency: str, alpha: float = 0.05) -> Tuple[bool, str]:
+def hypothesis(corr_value: float, p_value: float, dependency: str, alpha: float = 0.05) -> Tuple[bool, str]:
     """
     Проверяет гипотезу о корреляции с учетом типа зависимости
     
@@ -86,7 +86,7 @@ def analyze_all_correlations(df: pd.DataFrame, alpha: float = 0.05) -> pd.DataFr
             
             # Проверяем гипотезы для каждого коэффициента
             for corr_type, (corr_value, p_value) in correlations.items():
-                reject_h0, hypothesis_result = test_hypothesis(corr_value, p_value, column, alpha)
+                reject_h0, hypothesis_result = hypothesis(corr_value, p_value, column, alpha)
                 
                 results.append({
                     'dependency': column,

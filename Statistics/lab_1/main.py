@@ -554,7 +554,7 @@ def build_visual_comparisons(df: pd.DataFrame, output_dir: str = "plots"):
         DistributionType.WEIBULL.value: DistributionType.EXPONENTIAL,
     }
 
-    for sample_size in PLOT_SAMPLE_SIZES:
+    for sample_size in SAMPLE_SIZES:
         subset = df[df["sample_size"] == sample_size]
 
         # Берём первую итерацию для каждой комбинации (real_dist, checked_dist)
